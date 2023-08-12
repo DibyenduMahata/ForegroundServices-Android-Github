@@ -1,5 +1,6 @@
 package com.androidactivity.foregroundservices_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -44,17 +46,31 @@ class MainActivity : ComponentActivity() {
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.size(120.dp))
-                        Text(text = "(Please, add the Notification Permission.)")
+                        Text(
+                            text = "(Please, add the Notification Permission for Notification Access)",
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                        )
                         Spacer(modifier = Modifier.size(20.dp))
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceAround
                         ) {
-                            Button(onClick = { /*TODO*/ }) {
+                            Button(onClick = {
+                                Intent(applicationContext, MyService::class.java).also {
+                                    it.action = Action.STOP.name
+                                    startService(it)
+                                }
+                            }) {
                                 Text(text = "End Service")
                             }
-                            Button(onClick = { /*TODO*/ }) {
+                            Button(onClick = {
+                                Intent(applicationContext, MyService::class.java).also {
+                                    it.action = Action.START.name
+                                    startService(it)
+                                }
+                            }) {
                                 Text(text = "Start Service")
                             }
                         }
